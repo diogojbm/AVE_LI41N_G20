@@ -55,16 +55,36 @@ namespace SqlReflect
             return aux;
         }
 
+        public PropertyInfo GetPK()
+        {
+            foreach (PropertyInfo p in properties){
+                if (p.IsDefined(typeof(PKAttribute))){
+                    return p;
+                }
+            }
+            return null;
+        }
+
         protected override object Load(SqlDataReader dr)
         {
             object instance = Activator.CreateInstance(klass);
+            string complexPropertyName;
             foreach (PropertyInfo p in properties){
                 Type t = p.PropertyType;
                 if (ps.IsADBEntity(t)){
                     ReflectDataMapper rdm = Mappers.GetMapper(t, connStr);
-                    rdm.GetById(GetPKName(rdm.properties));
+                    complexPropertyName = rdm.GetPKName(rdm.properties);
+                    // e.g. "SupplierID" propertyInfo
+                    PropertyInfo pi = rdm.GetPK();
+
+                    object id = pi.GetValue(instance);
+                    // <=> 
+                    //object id = dr[complexPropertyName];//
+                    object complexObj = rdm.GetById(id);
+                    p.SetValue(instance, complexObj);
                 }
-                p.SetValue(instance, dr[p.Name]);
+                else
+                    p.SetValue(instance, dr[p.Name]);
             }
             return instance;
         }

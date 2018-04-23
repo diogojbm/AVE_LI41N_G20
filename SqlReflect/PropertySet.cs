@@ -44,14 +44,12 @@ namespace SqlReflect
                     else continue;
                 }
                 else{
-                    Type t = allProperties[i].PropertyType;
-                    if (IsADBEntity(t))
-                    {
+                    /*if (IsADBEntity(t)){
                         ReflectDataMapper rdm = Mappers.GetMapper(t, connectionString);
-                        string pk = rdm.GetPKName(t.GetProperties());
+                        string pk = rdm.GetPKName(allProperties);
                         prebuildedQuery.Append(pk);
                     }
-                    else prebuildedQuery.Append(allProperties[i].Name);
+                    else*/ prebuildedQuery.Append(allProperties[i].Name);
                 }
                 if (i != allProperties.Length - 1) prebuildedQuery.Append(",");
             }
