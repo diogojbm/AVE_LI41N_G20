@@ -49,23 +49,29 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractCategoryDataMapperTest.cs" />
-    <Compile Include="AbstractProductDataMapperTest.cs" />
-    <Compile Include="AbstractRegionDataMapperTest.cs" />
-    <Compile Include="CategoryDataMapperReflectTest.cs" />
+    <Compile Include="Tests\AbstractCategoryDataMapperTest.cs" />
+    <Compile Include="Tests\AbstractProductDataMapperTest.cs" />
+    <Compile Include="Tests\AbstractRegionDataMapperTest.cs" />
+    <Compile Include="Tests\CategoryDataMapperReflectTest.cs" />
+    <Compile Include="DataMappers\CustomerDataMapper.cs" />
+    <Compile Include="DataMappers\EmployeeDataMapper.cs" />
     <Compile Include="DataMappers\RegionDataMapper.cs" />
     <Compile Include="DataMappers\SupplierDataMapper.cs" />
     <Compile Include="DataMappers\CategoryDataMapper.cs" />
     <Compile Include="DataMappers\ProductDataMapper.cs" />
-    <Compile Include="CategoryDataMapperTest.cs" />
+    <Compile Include="Tests\CategoryDataMapperTest.cs" />
+    <Compile Include="Model\Customer.cs" />
+    <Compile Include="Model\Employee.cs" />
     <Compile Include="Model\Region.cs" />
-    <Compile Include="ProductDataMapperReflectTest.cs" />
-    <Compile Include="ProductDataMapperTest.cs" />
+    <Compile Include="Tests\CustomerDataMapperTest.cs" />
+    <Compile Include="Tests\EmployeeDataMapperTest.cs" />
+    <Compile Include="Tests\ProductDataMapperReflectTest.cs" />
+    <Compile Include="Tests\ProductDataMapperTest.cs" />
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\Product.cs" />
     <Compile Include="Model\Supplier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegionDataMapperTest.cs" />
+    <Compile Include="Tests\RegionDataMapperTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

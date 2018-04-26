@@ -16,14 +16,14 @@ namespace SqlReflect
         private string _columnsExceptPK;
         public string Columns {
             get {
-                _columns = BuildColumns(allProperties, true).ToString();
+                _columns = BuildColumns(true).ToString();
                 return _columns;
             }
         }
 
         public string ColumnsExceptPk {
             get {
-                _columnsExceptPK = BuildColumns(allProperties, false).ToString();
+                _columnsExceptPK = BuildColumns(false).ToString();
                 return _columnsExceptPK;
             }
         }
@@ -35,7 +35,7 @@ namespace SqlReflect
             allProperties = t.GetProperties();
         }
 
-        public StringBuilder BuildColumns(PropertyInfo[] allProperties, bool pkNeeded)
+        public StringBuilder BuildColumns(bool pkNeeded)
         {
             StringBuilder prebuildedQuery = new StringBuilder("");
             for (int i = 0; i < allProperties.Length; ++i){
@@ -44,12 +44,12 @@ namespace SqlReflect
                     else continue;
                 }
                 else{
-                    /*if (IsADBEntity(t)){
-                        ReflectDataMapper rdm = Mappers.GetMapper(t, connectionString);
-                        string pk = rdm.GetPKName(allProperties);
+                    if (IsADBEntity(allProperties[i].PropertyType)) {
+                        ReflectDataMapper rdm = Mappers.GetMapper(allProperties[i].PropertyType, connectionString);
+                        string pk = rdm.GetPKName();
                         prebuildedQuery.Append(pk);
                     }
-                    else*/ prebuildedQuery.Append(allProperties[i].Name);
+                    else prebuildedQuery.Append(allProperties[i].Name);
                 }
                 if (i != allProperties.Length - 1) prebuildedQuery.Append(",");
             }

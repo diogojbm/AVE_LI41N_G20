@@ -1,8 +1,9 @@
-﻿using SqlReflect.Attributes;
-using System;
-using System.Data.SqlClient;
+﻿using System;
+using System.Data;
 using System.Reflection;
 using System.Text;
+using SqlReflect.Attributes;
+
 
 namespace SqlReflect
 {
@@ -24,6 +25,10 @@ namespace SqlReflect
         /*  string SQL_INSERT = "INSERT INTO" + TABLE_NAME + "(" + COLUMNS + ") OUTPUT INSERTED.CategoryID VALUES ";
             string SQL_DELETE = "DELETE FROM" + TABLE_NAME + " WHERE CategoryID = ";
             string SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET CategoryName={1}, Description={2} WHERE CategoryID = {0}";  */
+        
+        public ReflectDataMapper(Type klass, string connStr, bool withCache) : base(connStr, withCache)
+        {
+        }
 
         public ReflectDataMapper(Type klass, string connStr) : base(connStr)
         {
@@ -33,7 +38,7 @@ namespace SqlReflect
             table = (TableAttribute)klass.GetCustomAttribute(typeof(TableAttribute));
             TABLE_NAME = table.Name;
             properties = ps.GetProperties();
-            PK_NAME = GetPKName(properties);
+            PK_NAME = GetPKName();
             BuildQueries(TABLE_NAME);
         }
 
@@ -43,7 +48,7 @@ namespace SqlReflect
             columns_except_pk = ps.ColumnsExceptPk;
         }
 
-        public string GetPKName(PropertyInfo[] properties)
+        public string GetPKName()
         {
             string aux = "";
             foreach (PropertyInfo p in properties){
@@ -65,26 +70,25 @@ namespace SqlReflect
             return null;
         }
 
-        protected override object Load(SqlDataReader dr)
+        protected override object Load(IDataReader dr)
         {
             object instance = Activator.CreateInstance(klass);
             string complexPropertyName;
             foreach (PropertyInfo p in properties){
                 Type t = p.PropertyType;
-                if (ps.IsADBEntity(t)){
+                if (ps.IsADBEntity(t))
+                {
                     ReflectDataMapper rdm = Mappers.GetMapper(t, connStr);
-                    complexPropertyName = rdm.GetPKName(rdm.properties);
+                    complexPropertyName = rdm.GetPKName();
                     // e.g. "SupplierID" propertyInfo
-                    PropertyInfo pi = rdm.GetPK();
-
-                    object id = pi.GetValue(instance);
-                    // <=> 
-                    //object id = dr[complexPropertyName];//
-                    object complexObj = rdm.GetById(id);
-                    p.SetValue(instance, complexObj);
+                    PropertyInfo complexPI = rdm.GetPK();
+                    object complexObject = rdm.GetById(dr[complexPropertyName]);
+                    complexPI.SetValue(instance, complexObject);
                 }
                 else
-                    p.SetValue(instance, dr[p.Name]);
+                {
+                    if (!(dr[p.Name] is DBNull)) p.SetValue(instance, dr[p.Name]);
+                }
             }
             return instance;
         }
