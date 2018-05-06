@@ -1,14 +1,16 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SqlReflectTest.DataMappers;
+using SqlReflectTest.Model;
 
-namespace SqlReflectTest
+namespace SqlReflectTest.Tests
 {
     [TestClass]
     public class ProductDataMapperTest : AbstractProductDataMapperTest
     {
         public ProductDataMapperTest() : base(
-            new ProductDataMapper(NORTHWIND),
+            new ProductDataMapper(typeof(Product), NORTHWIND, false),
             new CategoryDataMapper(NORTHWIND),
             new SupplierDataMapper(NORTHWIND))
         {

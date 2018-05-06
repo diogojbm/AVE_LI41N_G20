@@ -1,37 +1,38 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SqlReflect;
 using SqlReflectTest.DataMappers;
 using SqlReflectTest.Model;
 
 namespace SqlReflectTest.Tests
 {
     [TestClass]
-    public class CustomerDataMapperTest: AbstractCustomerDataMapperTest
+    public class CustomerDataMapperToEmitTest : AbstractCustomerDataMapperTest
     {
-        public CustomerDataMapperTest() : base(new CustomerDataMapper(typeof(Customer), NORTHWIND, false))
+        public CustomerDataMapperToEmitTest() : base(EmitDataMapper.Build(typeof(Customer), NORTHWIND, false))
         {
         }
 
         [TestMethod]
-        public new void TestCustomerGetAll()
+        public new void TestCustomerGetAllToEmit()
         {
             base.TestCustomerGetAll();
         }
 
         [TestMethod]
-        public new void TestCustomerGetById()
+        public new void TestCustomerGetByIdToEmit()
         {
             base.TestCustomerGetById();
         }
 
 
         [TestMethod]
-        public new void TestCustomerInsertAndDelete()
+        public new void TestCustomerInsertAndDeleteToEmit()
         {
             base.TestCustomerInsertAndDelete();
         }
 
         [TestMethod]
-        public new void TestCustomerUpdate()
+        public new void TestCustomerUpdateToEmit()
         {
             base.TestCustomerUpdate();
         }

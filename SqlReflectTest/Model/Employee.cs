@@ -18,5 +18,7 @@ namespace SqlReflectTest.Model
         public string Country { get; set; }
         public string HomePhone { get; set; }
         public string Extension { get; set; }
+        
+
     }
 }

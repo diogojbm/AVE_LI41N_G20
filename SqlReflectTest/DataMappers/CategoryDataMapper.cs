@@ -30,7 +30,7 @@ namespace SqlReflectTest.DataMappers
         protected override object Load(IDataReader dr)
         {
             Category c = new Category();
-            c.CategoryID = (int)dr["CategoryID"];
+            c.CategoryID = DBNull.Value == dr["CategoryID"] ? 0 : (int)dr["CategoryID"];
             c.CategoryName = (string)dr["CategoryName"];
             c.Description = (string)dr["Description"];
             return c;

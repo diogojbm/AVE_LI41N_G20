@@ -1,8 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SqlReflectTest.DataMappers;
 using SqlReflectTest.Model;
-using System.Collections.Generic;
 using SqlReflect;
 using System.Collections;
 
@@ -74,6 +72,27 @@ namespace SqlReflectTest
             prods.Delete(actual);
             actual = (Product)prods.GetById(id);
             Assert.IsNull(actual);
+        }
+
+        public void TestProductUpdate()
+        {
+            Product original = (Product)prods.GetById(3);
+            Product modified = new Product()
+            {
+                Supplier = original.Supplier,
+                Category = original.Category,
+                UnitsInStock = 40,
+                UnitsOnOrder = 100,
+                ReorderLevel = 30
+            };
+            prods.Update(modified);
+            Product actual = (Product)prods.GetById(3);
+            Assert.AreEqual(modified.ProductName, actual.UnitsInStock);
+            Assert.AreEqual(modified.ProductName, actual.UnitsOnOrder);
+            prods.Update(original);
+            actual = (Product)prods.GetById(3);
+            Assert.AreEqual(13, actual.UnitsInStock);
+            Assert.AreEqual(70, actual.UnitsOnOrder);
         }
 
     }

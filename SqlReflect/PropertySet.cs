@@ -33,6 +33,11 @@ namespace SqlReflect
             this.t = t;
             connectionString = connStr;
             allProperties = t.GetProperties();
+            for (int i = 0; i < allProperties.Length; ++i) {
+                if (allProperties[i].IsDefined(typeof(PKAttribute))) {
+                    pk = allProperties[i];
+                }
+            }
         }
 
         public StringBuilder BuildColumns(bool pkNeeded)

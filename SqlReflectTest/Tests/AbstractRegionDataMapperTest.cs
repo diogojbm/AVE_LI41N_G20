@@ -32,13 +32,13 @@ namespace SqlReflectTest
                 Console.WriteLine(p);
                 count++;
             }
-            Assert.AreEqual(10, count);
+            Assert.AreEqual(4, count);
         }
         public void TestRegionGetById()
         {
             Region r = (Region)regions.GetById(3);
             r.RegionDescription = r.RegionDescription.Trim();
-            Assert.AreEqual("Asia", r.RegionDescription);
+            Assert.AreEqual("Northern", r.RegionDescription);
         }
 
         public void TestRegionInsertAndDelete()
@@ -82,7 +82,7 @@ namespace SqlReflectTest
             regions.Update(original);
             actual = (Region)regions.GetById(3);
             actual.RegionDescription = actual.RegionDescription.Trim();
-            Assert.AreEqual("Asia", actual.RegionDescription);
+            Assert.AreEqual("Northern", actual.RegionDescription);
         }
     }
 }

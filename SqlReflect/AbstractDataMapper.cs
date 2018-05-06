@@ -18,6 +18,7 @@ namespace SqlReflect
 
         public AbstractDataMapper(string connStr, bool withCache)
         {
+            withCache = false;
             this.connStr = connStr;
             if (withCache) cache = new DataSet();
         }
@@ -89,6 +90,7 @@ namespace SqlReflect
             return Execute(sql, tableName);
         }
 
+
         public void Delete(object target)
         {
             string sql = SqlDelete(target);
@@ -121,6 +123,23 @@ namespace SqlReflect
                 if (cmd != null) cmd.Dispose();
                 if (con.State != ConnectionState.Closed) con.Close();
             }
+        }
+
+        public string CheckType(object toConcat)
+        {
+            string res = "";
+            if (toConcat == null)
+            {
+                res = "NULL";
+            }
+            else {
+                if (toConcat is string) res = String.Format("'{0}'", toConcat);
+                else {
+                    res = toConcat.ToString();
+                }
+            }
+
+            return res;
         }
 
         private DbDataReader AddToCache(DbDataReader dr, string tableName)

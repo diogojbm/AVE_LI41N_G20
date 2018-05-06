@@ -7,8 +7,6 @@ using SqlReflect.Attributes;
 
 namespace SqlReflect
 {
-    
-
     public class ReflectDataMapper : AbstractDataMapper
     {
         Type klass;
@@ -81,7 +79,9 @@ namespace SqlReflect
                     ReflectDataMapper rdm = Mappers.GetMapper(t, connStr);
                     complexPropertyName = rdm.GetPKName();
                     // e.g. "SupplierID" propertyInfo
-                    PropertyInfo complexPI = rdm.GetPK();
+                    //PropertyInfo complexPI = rdm.GetPK();
+                    PropertyInfo complexPI = p;
+
                     object complexObject = rdm.GetById(dr[complexPropertyName]);
                     complexPI.SetValue(instance, complexObject);
                 }
@@ -108,18 +108,28 @@ namespace SqlReflect
             StringBuilder values = new StringBuilder("");
             int count = 0;
             for (int i = 0; i < properties.Length; ++i){
-                if (!properties[i].IsDefined(typeof(PKAttribute))){
+                if (!properties[i].IsDefined(typeof(PKAttribute))) {
                     if (count == 0) values.Append("'");
-                    val = properties[i].GetValue(target);
-
-                    values.Append(val);
-                    if (i != properties.Length - 1){
+                    Type t = properties[i].PropertyType;
+                    if (ps.IsADBEntity(t)){
+                        object complexObj = properties[i].GetValue(target);
+                        PropertySet ps = TypeProperties.GetPS(t, connStr);
+                        val = ps.pk.GetValue(complexObj);
+                        values.Append(val);
+                    }
+                    else {
+                        val = properties[i].GetValue(target);
+                        values.Append(val);
+                    }
+                    if (i != properties.Length - 1)
+                    {
                         values.Append("','");
                         ++count;
                     }
                     else values.Append("'");
                 }
                 else{
+      
                     if (properties[i].IsDefined(typeof(NotIdentity))) noIdentity = true;
                     continue;
                 }

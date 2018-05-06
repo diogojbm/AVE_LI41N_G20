@@ -44,7 +44,6 @@
     <Compile Include="Attributes\NotIdentity.cs" />
     <Compile Include="DynamicDataMapper.cs" />
     <Compile Include="EmitDataMapper.cs" />
-    <Compile Include="EmployeeDataMapper.cs" />
     <Compile Include="IDataMapper.cs" />
     <Compile Include="Mappers.cs" />
     <Compile Include="PropertySet.cs" />
