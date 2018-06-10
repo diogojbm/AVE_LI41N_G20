@@ -23,25 +23,24 @@ namespace SqlReflect
             if (withCache) cache = new DataSet();
         }
 
-        protected abstract string SqlGetById(object id);
         protected abstract string SqlGetAll();
+        protected abstract string SqlGetById(object id);
         protected abstract string SqlInsert(object target);
-        protected abstract string SqlUpdate(object target);
         protected abstract string SqlDelete(object target);
+        protected abstract string SqlUpdate(object target);
 
         protected abstract object Load(IDataReader dr);
+
+        public IEnumerable GetAll()
+        {
+            return Get(SqlGetAll());
+        }
 
         public object GetById(object id)
         {
             string sql = SqlGetById(id);
             IEnumerator iter = Get(sql).GetEnumerator();
             return iter.MoveNext() ? iter.Current : null;
-        }
-
-
-        public IEnumerable GetAll()
-        {
-            return Get(SqlGetAll());
         }
 
         private IEnumerable Get(string sql)

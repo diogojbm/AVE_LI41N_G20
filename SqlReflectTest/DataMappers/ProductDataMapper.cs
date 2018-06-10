@@ -5,7 +5,7 @@ using System.Data;
 
 namespace SqlReflectTest.DataMappers
 {
-    class ProductDataMapper : DynamicDataMapper
+    public class ProductDataMapper : DynamicDataMapper
     {
         /*
         const string COLUMNS = "ProductName, SupplierID, CategoryID, UnitsInStock, UnitsOnOrder, ReorderLevel";

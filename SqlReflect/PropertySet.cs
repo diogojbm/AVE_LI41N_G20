@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SqlReflect
 {
-    class PropertySet
+    public class PropertySet
     {
         PropertyInfo[] allProperties;
         private Type t;

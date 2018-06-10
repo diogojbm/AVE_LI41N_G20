@@ -25,8 +25,11 @@ public static class AppToBenchmark
         return null;
     }
 
+    private static readonly IDataMapper customerHardCodedMapper = new CustomerDataMapper(typeof(Customer), NORTHWND, false);
+
+
     public static Object testDataMapper() {
-        return new CustomerDataMapper(typeof(Customer), NORTHWND, false);
+        return customerHardCodedMapper.GetAll();
     }
 
     public static Object testReflectDataMapper()
@@ -46,8 +49,8 @@ public static class AppToBenchmark
         const long NUM_ITER = 10;
 
         NBench.Benchmark(new BenchmarkMethod(AppToBenchmark.testDataMapper), "testDataMapper", ITER_TIME, NUM_WARMUP, NUM_ITER);
-        NBench.Benchmark(new BenchmarkMethod(AppToBenchmark.testReflectDataMapper), "testReflectDataMapper", ITER_TIME, NUM_WARMUP, NUM_ITER);
-        NBench.Benchmark(new BenchmarkMethod(AppToBenchmark.testEmitDataMapper), "testEmitDataMapper", ITER_TIME, NUM_WARMUP, NUM_ITER);
+        //NBench.Benchmark(new BenchmarkMethod(AppToBenchmark.testReflectDataMapper), "testReflectDataMapper", ITER_TIME, NUM_WARMUP, NUM_ITER);
+        //NBench.Benchmark(new BenchmarkMethod(AppToBenchmark.testEmitDataMapper), "testEmitDataMapper", ITER_TIME, NUM_WARMUP, NUM_ITER);
     }
 }
 

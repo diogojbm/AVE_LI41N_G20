@@ -5,7 +5,7 @@ using System.Data;
 
 namespace SqlReflectTest.DataMappers
 {
-    class SupplierDataMapper : AbstractDataMapper
+    public class SupplierDataMapper : AbstractDataMapper
     {
         const string SQL_GET_ALL = @"SELECT SupplierID, CompanyName, ContactName, ContactTitle, Address, City, Region, PostalCode, Country, Phone, Fax
                                      FROM Suppliers";

@@ -19,10 +19,6 @@ namespace SqlReflect
         private string PK_NAME;
         private bool noIdentity = false;
         private string connStr;
-
-        /*  string SQL_INSERT = "INSERT INTO" + TABLE_NAME + "(" + COLUMNS + ") OUTPUT INSERTED.CategoryID VALUES ";
-            string SQL_DELETE = "DELETE FROM" + TABLE_NAME + " WHERE CategoryID = ";
-            string SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET CategoryName={1}, Description={2} WHERE CategoryID = {0}";  */
         
         public ReflectDataMapper(Type klass, string connStr, bool withCache) : base(connStr, withCache)
         {
@@ -61,9 +57,7 @@ namespace SqlReflect
         public PropertyInfo GetPK()
         {
             foreach (PropertyInfo p in properties){
-                if (p.IsDefined(typeof(PKAttribute))){
-                    return p;
-                }
+                if (p.IsDefined(typeof(PKAttribute))) return p;
             }
             return null;
         }
@@ -74,8 +68,7 @@ namespace SqlReflect
             string complexPropertyName;
             foreach (PropertyInfo p in properties){
                 Type t = p.PropertyType;
-                if (ps.IsADBEntity(t))
-                {
+                if (ps.IsADBEntity(t)){
                     ReflectDataMapper rdm = Mappers.GetMapper(t, connStr);
                     complexPropertyName = rdm.GetPKName();
                     // e.g. "SupplierID" propertyInfo
@@ -85,8 +78,7 @@ namespace SqlReflect
                     object complexObject = rdm.GetById(dr[complexPropertyName]);
                     complexPI.SetValue(instance, complexObject);
                 }
-                else
-                {
+                else{
                     if (!(dr[p.Name] is DBNull)) p.SetValue(instance, dr[p.Name]);
                 }
             }
@@ -100,10 +92,11 @@ namespace SqlReflect
 
         protected override string SqlGetById(object id)
         {
-            return @"SELECT " + columns + " FROM " + TABLE_NAME + " WHERE " + PK_NAME + "=" + id;  
+            return @"SELECT " + columns + " FROM " + TABLE_NAME + " WHERE " + PK_NAME + "=" + id;
         }
 
-        protected override string SqlInsert(object target){
+        protected override string SqlInsert(object target)
+        {
             object val;
             StringBuilder values = new StringBuilder("");
             int count = 0;
@@ -121,15 +114,14 @@ namespace SqlReflect
                         val = properties[i].GetValue(target);
                         values.Append(val);
                     }
-                    if (i != properties.Length - 1)
-                    {
+                    if (i != properties.Length - 1){
                         values.Append("','");
                         ++count;
                     }
                     else values.Append("'");
                 }
-                else{
-      
+                else
+                {
                     if (properties[i].IsDefined(typeof(NotIdentity))) noIdentity = true;
                     continue;
                 }
@@ -165,7 +157,6 @@ namespace SqlReflect
                 if (i != properties.Length - 1) updateString += ", ";
             }
             return updateString += " WHERE " + pk_value;
- 
         }
 
         

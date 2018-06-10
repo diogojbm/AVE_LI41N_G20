@@ -16,7 +16,7 @@ namespace App
                     Environment.CurrentDirectory +
                     "\\data\\NORTHWND.MDF";
 
-        static void Main(string[] args) {
+        static void Main1(string[] args) {
             CompareMappers(typeof(Employee));
             CompareMappers(typeof(Customer));
 

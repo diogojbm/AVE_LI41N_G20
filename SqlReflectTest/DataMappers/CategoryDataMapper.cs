@@ -5,7 +5,7 @@ using System.Data;
 
 namespace SqlReflectTest.DataMappers
 {
-    class CategoryDataMapper : AbstractDataMapper
+    public class CategoryDataMapper : AbstractDataMapper
     {
         const string COLUMNS = "CategoryName, Description";
         const string SQL_GET_ALL = @"SELECT CategoryID, " + COLUMNS + " FROM Categories";

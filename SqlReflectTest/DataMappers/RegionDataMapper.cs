@@ -5,7 +5,7 @@ using System.Data;
 
 namespace SqlReflectTest.DataMappers
 {
-    class RegionDataMapper : AbstractDataMapper
+    public class RegionDataMapper : AbstractDataMapper
     {
         const string COLUMNS = "RegionID, RegionDescription";
         const string SQL_GET_ALL = @"SELECT " + COLUMNS + " FROM Region";

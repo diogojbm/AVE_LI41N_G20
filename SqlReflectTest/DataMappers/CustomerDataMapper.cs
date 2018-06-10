@@ -5,7 +5,7 @@ using SqlReflectTest.Model;
 
 namespace SqlReflectTest.DataMappers
 {
-    class CustomerDataMapper : DynamicDataMapper
+    public class CustomerDataMapper : DynamicDataMapper
     {
         public CustomerDataMapper(Type klass, string connStr, bool withCache) : base(klass, connStr, withCache)
         {

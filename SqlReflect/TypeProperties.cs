@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SqlReflect
 {
-    class TypeProperties
+    public class TypeProperties
     {
         static Dictionary<Type, PropertySet> properties = new Dictionary<Type, PropertySet>();
 

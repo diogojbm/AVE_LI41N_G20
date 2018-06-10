@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SqlReflect
 {
-    class Mappers
+    public class Mappers
     {
         private static readonly Dictionary<Type, ReflectDataMapper> mappersDic = new Dictionary<Type, ReflectDataMapper>();
         public static ReflectDataMapper GetMapper(Type t, string connStr) {
